@@ -1,10 +1,11 @@
 // enums3.rs
 // Address all the TODOs to make the tests pass!
 
-// I AM NOT DONE
-
 enum Message {
-    // TODO: implement the message variant types based on their usage below
+    ChangeColor(u8, u8, u8),
+    Echo(String), // If you use this, you are creating a singleton tuple for this field.
+    Move(Point),
+    Quit,
 }
 
 struct Point {
@@ -36,7 +37,12 @@ impl State {
     }
 
     fn process(&mut self, message: Message) {
-        // TODO: create a match expression to process the different message variants
+        match message {
+	    Message::ChangeColor(r, g, b) => State::change_color(self, (r, g, b)),
+	    Message::Echo(msg) => State::echo(self, msg),
+	    Message::Move(pt) => State::move_position(self, pt),
+	    Message::Quit => State::quit(self),
+	}
     }
 }
 
