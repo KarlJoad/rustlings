@@ -6,12 +6,11 @@
 // check clippy's suggestions from the output to solve the exercise.
 // Execute `rustlings hint clippy1` for hints :)
 
-// I AM NOT DONE
-
+const FLOATERROR: f64 = 0.000_001; // The _ is there to make things easier to read, I guess.
 fn main() {
     let x = 1.2331f64;
     let y = 1.2332f64;
-    if y != x {
+    if (y-x).abs() > FLOATERROR {
         println!("Success!");
     }
 }
