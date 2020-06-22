@@ -5,9 +5,7 @@
 // of "waiting..." and the program ends without timing out when running,
 // you've got it :)
 
-// I AM NOT DONE
-
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
@@ -16,15 +14,25 @@ struct JobStatus {
 }
 
 fn main() {
-    let status = Arc::new(JobStatus { jobs_completed: 0 });
+    let status = Arc::new(Mutex::new(JobStatus { jobs_completed: 0 }));
     let status_shared = status.clone();
+    /* Cloning creates another "pointer" to the ARC, which increases the Strong
+     * Reference Count. */
     thread::spawn(move || {
         for _ in 0..10 {
             thread::sleep(Duration::from_millis(250));
-            status_shared.jobs_completed += 1;
+            status_shared.lock().unwrap().jobs_completed += 1;
+	    /* We do not need to worry about the Arc here, because that is handled
+	     * for us behind the scenes, keeping track of the number of references
+	     * to the Mutex lock we used.
+	     * Locks are automatically unlocked when threads go out of scope.
+	     * The Arc is decremented when the reference to the thing goes out of
+	     * scope. */
         }
     });
-    while status.jobs_completed < 10 {
+    /* The unwrap is needed because the struct inside the Mutex is wrapped in a
+     * LockResult after the lock call. */
+    while status.lock().unwrap().jobs_completed < 10 {
         println!("waiting... ");
         thread::sleep(Duration::from_millis(500));
     }
