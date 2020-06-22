@@ -1,13 +1,17 @@
 // This powerful wrapper provides the ability to store a positive integer value.
 // Rewrite it using generics so that it supports wrapping ANY type.
 
-// I AM NOT DONE
-struct Wrapper {
-    value: u32
+/* We need a type parameter, or a Generic type specified for Wrapper, for the
+ * single field the struct has.
+ * Then, we must implement a generic version of Wrapper. It must take in something
+ * of type T, and will return a Wrapper around that type T. */
+
+struct Wrapper<T> {
+    value: T
 }
 
-impl Wrapper {
-    pub fn new(value: u32) -> Self {
+impl<T> Wrapper<T> {
+    pub fn new(value: T) -> Self {
         Wrapper { value }
     }
 }
