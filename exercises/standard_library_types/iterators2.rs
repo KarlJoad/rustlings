@@ -7,13 +7,20 @@
 //         Try to ensure it returns a single string.
 // As always, there are hints if you execute `rustlings hint iterators2`!
 
-// I AM NOT DONE
+/* You want to use the map() function because an Iterator's next() will return
+ * a variant of Option, which cannot be unwrapped nicely.
+ * The easier way to handle these things is to map the closure which runs the
+ * capitalize_first function over the Option type, and can handle the variant
+ * cases that Option gives you.
+ * Lastly, the map() function will return the elements after the function has
+ * been mapped over the elements in the input list. So, we need to collect the
+ * individual elements that are returned. */
 
 pub fn capitalize_first(input: &str) -> String {
     let mut c = input.chars();
     match c.next() {
         None => String::new(),
-        Some(first) => first.collect::<String>() + c.as_str(),
+        Some(first) => first.to_uppercase().collect::<String>() + c.as_str(),
     }
 }
 
@@ -37,14 +44,14 @@ mod tests {
     #[test]
     fn test_iterate_string_vec() {
         let words = vec!["hello", "world"];
-        let capitalized_words: Vec<String> = // TODO
+        let capitalized_words: Vec<String> = words.iter().map(|x| capitalize_first(x)).collect();
         assert_eq!(capitalized_words, ["Hello", "World"]);
     }
 
     #[test]
     fn test_iterate_into_string() {
         let words = vec!["hello", " ", "world"];
-        let capitalized_words = // TODO
+        let capitalized_words = words.iter().map(|x| capitalize_first(x)).collect::<String>();
         assert_eq!(capitalized_words, "Hello World");
     }
 }
