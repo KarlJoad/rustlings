@@ -1,12 +1,17 @@
 // option2.rs
 // Make me compile! Execute `rustlings hint option2` for hints
 
-// I AM NOT DONE
+/* The if-let and while-let leverage the fact that these blocks are considered
+ * EXPRESSIONS. This does mean that if and while can be used on the RHS of an
+ * assignment.
+ * Here, the thing we are matching against and "deconstructing" is the parameter
+ * to the if/while, and what we are comparing against is on the RHS, with the
+ * alternatives inside blocks after that. */
 
 fn main() {
     let optional_value = Some(String::from("rustlings"));
     // TODO: Make this an if let statement whose value is "Some" type
-    value = optional_value {
+    if let Some(value) = optional_value {
         println!("the value of optional value is: {}", value);
     } else {
         println!("The optional value doesn't contain anything!");
@@ -17,9 +22,9 @@ fn main() {
         optional_values_vec.push(Some(x));
     }
 
-    // TODO: make this a while let statement - remember that vector.pop also adds another layer of Option<T>
+    // Remember that vector.pop also adds another layer of Option<T>
     // You can stack `Option<T>`'s into while let and if let
-    value = optional_values_vec.pop() {
+    while let Some(Some(value)) = optional_values_vec.pop() {
         println!("current value: {}", value);
     }
 }
